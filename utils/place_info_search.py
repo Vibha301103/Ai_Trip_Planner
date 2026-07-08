@@ -2,14 +2,14 @@ import os
 import requests
 from langchain_tavily import TavilySearch
 
-
 class FoursquarePlaceSearchTool:
     def __init__(self, api_key: str):
         self.api_key = api_key
-        self.base_url = "https://api.foursquare.com/v3/places/search"
+        self.base_url = "https://places-api.foursquare.com/places/search"  # CHANGED
         self.headers = {
             "Accept": "application/json",
-            "Authorization": self.api_key
+            "Authorization": f"Bearer {self.api_key}",  # CHANGED
+            "X-Places-Api-Version": "2025-06-17"  # ADDED
         }
 
     def _search(self, query: str, place: str, limit: int = 10) -> str:
@@ -25,18 +25,15 @@ class FoursquarePlaceSearchTool:
         response = requests.get(self.base_url, headers=self.headers, params=params)
         response.raise_for_status()
         data = response.json()
-
         results = data.get("results", [])
         if not results:
             return f"No results found for '{query}' near {place}."
-
         formatted = []
         for r in results:
             name = r.get("name", "Unknown")
             categories = ", ".join(c.get("name", "") for c in r.get("categories", []))
             address = r.get("location", {}).get("formatted_address", "Address not available")
             formatted.append(f"- {name} ({categories}) — {address}")
-
         return "\n".join(formatted)
 
     def google_search_attractions(self, place: str) -> dict:
@@ -66,7 +63,7 @@ class TavilyPlaceSearchTool:
         if isinstance(result, dict) and result.get("answer"):
             return result["answer"]
         return result
-    
+
     def tavily_search_restaurants(self, place: str) -> dict:
         """
         Searches for available restaurants in the specified place using TavilySearch.
@@ -76,7 +73,7 @@ class TavilyPlaceSearchTool:
         if isinstance(result, dict) and result.get("answer"):
             return result["answer"]
         return result
-    
+
     def tavily_search_activity(self, place: str) -> dict:
         """
         Searches for popular activities in the specified place using TavilySearch.
