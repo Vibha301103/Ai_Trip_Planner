@@ -16,7 +16,7 @@ An AI-powered travel planning agent that generates complete, detailed trip itine
 
 ---
 
-## ✨ Features
+## Features
 
 - 🗺️ Complete day-by-day travel itineraries for any destination
 - 🏨 Hotel recommendations with approximate per-night costs
