@@ -1,4 +1,4 @@
-# 🌍 AI Trip Planner
+<img width="1920" height="1020" alt="Screenshot 2026-07-16 161310" src="https://github.com/user-attachments/assets/0015074c-5d83-4a34-b6b3-3066ce49a4c1" /># 🌍 AI Trip Planner
 
 An AI-powered travel planning agent that generates complete, detailed trip itineraries — including attractions, restaurants, activities, transportation, weather forecasts, and cost breakdowns — using a LangGraph agent backed by Groq's LLM. Now with live transport pricing, a Wikivoyage-powered knowledge base for off-beat destination guides, and follow-up Q&A so you can ask questions about your plan after it's generated.
 
@@ -9,8 +9,12 @@ An AI-powered travel planning agent that generates complete, detailed trip itine
 ##  Screenshots
 <img width="1695" height="846" alt="Screenshot 2026-07-08 090941" src="https://github.com/user-attachments/assets/c78d4a9d-a708-49d2-a017-b4ca062d12ca" />
 <img width="1497" height="871" alt="Screenshot 2026-07-08 091024" src="https://github.com/user-attachments/assets/6a6c5991-5e60-461d-883c-3369a4bfdd8a" />
-<img width="1380" height="837" alt="Screenshot 2026-07-08 091036" src="https://github.com/user-attachments/assets/1a121cd4-09d8-4ee5-88e0-a187880353d3" />
-<img width="1135" height="827" alt="Screenshot 2026-07-08 091046" src="https://github.com/user-attachments/assets/1001810a-b088-42f3-88b1-1fff0b0355d7" />
+<img width="1920" height="1020" alt="Screenshot 2026-07-16 162002" src="https://github.com/user-attachments/assets/6e54924f-469a-4b30-acd9-ea81aaa24e41" />
+<img width="1920" height="1020" alt="Screenshot 2026-07-16 162009" src="https://github.com/user-attachments/assets/98d2e47d-e314-48f7-a736-5a1649276e99" />
+<img width="1920" height="1020" alt="Screenshot 2026-07-16 161332" src="https://github.com/user-attachments/assets/b161ff5b-2b37-4c6c-8386-14655ed056c4" />
+<img width="1920" height="1020" alt="Screenshot 2026-07-16 161310" src="https://github.com/user-attachments/assets/649a2711-2c5a-4b23-b269-28666c830b0e" />
+
+
 
 
 
