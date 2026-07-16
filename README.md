@@ -7,9 +7,8 @@ An AI-powered travel planning agent that generates complete, detailed trip itine
 ---
 
 ##  Screenshots
+
 <img width="1695" height="846" alt="Screenshot 2026-07-08 090941" src="https://github.com/user-attachments/assets/c78d4a9d-a708-49d2-a017-b4ca062d12ca" />
-<img width="1497" height="871" alt="Screenshot 2026-07-08 091024" src="https://github.com/user-attachments/assets/6a6c5991-5e60-461d-883c-3369a4bfdd8a" />
-<img width="1920" height="1020" alt="Screenshot 2026-07-16 162002" src="https://github.com/user-attachments/assets/6e54924f-469a-4b30-acd9-ea81aaa24e41" />
 <img width="1920" height="1020" alt="Screenshot 2026-07-16 162009" src="https://github.com/user-attachments/assets/98d2e47d-e314-48f7-a736-5a1649276e99" />
 <img width="1920" height="1020" alt="Screenshot 2026-07-16 161332" src="https://github.com/user-attachments/assets/b161ff5b-2b37-4c6c-8386-14655ed056c4" />
 <img width="1920" height="1020" alt="Screenshot 2026-07-16 161310" src="https://github.com/user-attachments/assets/649a2711-2c5a-4b23-b269-28666c830b0e" />
