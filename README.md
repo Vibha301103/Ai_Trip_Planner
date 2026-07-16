@@ -8,10 +8,12 @@ An AI-powered travel planning agent that generates complete, detailed trip itine
 
 ##  Screenshots
 
-<img width="1695" height="846" alt="Screenshot 2026-07-08 090941" src="https://github.com/user-attachments/assets/c78d4a9d-a708-49d2-a017-b4ca062d12ca" />
-<img width="1920" height="1020" alt="Screenshot 2026-07-16 162009" src="https://github.com/user-attachments/assets/98d2e47d-e314-48f7-a736-5a1649276e99" />
-<img width="1920" height="1020" alt="Screenshot 2026-07-16 161332" src="https://github.com/user-attachments/assets/b161ff5b-2b37-4c6c-8386-14655ed056c4" />
-<img width="1920" height="1020" alt="Screenshot 2026-07-16 161310" src="https://github.com/user-attachments/assets/649a2711-2c5a-4b23-b269-28666c830b0e" />
+<img width="1056" height="877" alt="Screenshot 2026-07-16 161310" src="https://github.com/user-attachments/assets/a6726e8f-6b7f-4e32-903d-7882f609e3a4" />
+<img width="924" height="831" alt="Screenshot 2026-07-16 161338" src="https://github.com/user-attachments/assets/f6809fe4-861b-465d-a2bf-0cba23e202ae" />
+<img width="924" height="831" alt="Screenshot 2026-07-16 161338" src="https://github.com/user-attachments/assets/f5944cd0-bcf8-4d7b-a9b3-37de1bdf69a9" />
+<img width="902" height="843" alt="Screenshot 2026-07-16 162009" src="https://github.com/user-attachments/assets/94fa94f8-8dae-4c3c-82fd-9525fc5db09d" />
+
+
 
 
 
