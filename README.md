@@ -1,7 +1,7 @@
-<img width="1920" height="1020" alt="Screenshot 2026-07-16 161310" src="https://github.com/user-attachments/assets/0015074c-5d83-4a34-b6b3-3066ce49a4c1" /># 🌍 AI Trip Planner
 
-An AI-powered travel planning agent that generates complete, detailed trip itineraries — including attractions, restaurants, activities, transportation, weather forecasts, and cost breakdowns — using a LangGraph agent backed by Groq's LLM. Now with live transport pricing, a Wikivoyage-powered knowledge base for off-beat destination guides, and follow-up Q&A so you can ask questions about your plan after it's generated.
 
+**An AI-powered travel planning agent that generates complete, detailed trip itineraries — including attractions, restaurants, activities, transportation, weather forecasts, and cost breakdowns — using a LangGraph agent backed by Groq's LLM. Now with live transport pricing, a Wikivoyage-powered knowledge base for off-beat destination guides, and follow-up Q&A so you can ask questions about your plan after it's generated.
+**
 **🔗 Live Demo:** [aitripplanner.streamlit.app](https://aitripplanner-fk5v5eqqhe3gkcmwgmhqsc.streamlit.app)
 
 ---
