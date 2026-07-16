@@ -8,6 +8,7 @@ from tools.place_search_tool import PlaceSearchTool
 from tools.expense_calculator_tool import CalculatorTool
 from tools.currency_conversion_tool import CurrencyConverterTool
 from tools.transport_search_tool import TransportSearchTool
+from tools.rag_tool import TravelGuideRAGTool
 
 class GraphBuilder():
     def __init__(self,model_provider: str = "groq"):
@@ -21,12 +22,14 @@ class GraphBuilder():
         self.calculator_tools = CalculatorTool()
         self.currency_converter_tools = CurrencyConverterTool()
         self.transport_search_tools = TransportSearchTool()
+        self.rag_tools = TravelGuideRAGTool()
         
         self.tools.extend([* self.weather_tools.weather_tool_list, 
                            * self.place_search_tools.place_search_tool_list,
                            * self.calculator_tools.calculator_tool_list,
                            * self.currency_converter_tools.currency_converter_tool_list,
-                           * self.transport_search_tools.transport_search_tool_list])
+                           * self.transport_search_tools.transport_search_tool_list,
+                           *self.rag_tools.rag_tool_list,  ])
         
         self.llm_with_tools = self.llm.bind_tools(tools=self.tools)
         

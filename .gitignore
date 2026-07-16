@@ -4,10 +4,33 @@ __pycache__/
 build/
 dist/
 wheels/
-*.egg-info
+*.egg-info/
 
 # Virtual environments
 .venv
-env
+env/
 .env/
+
+# Environment / secrets — never commit these
 .env
+.env.*
+!.env.example
+test_keys.py
+
+# Generated at runtime — not source, no need to track
+vectorstore/
+my_graph.png
+
+# Jupyter notebook checkpoints (you have a notebook/ folder)
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE folders
+.vscode/
+.idea/

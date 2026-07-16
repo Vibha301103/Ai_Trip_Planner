@@ -1,5 +1,9 @@
 langchain
 langchain-community
+faiss-cpu
+sentence-transformers
+langchain-huggingface
+requests
 langchain-experimental
 fastapi
 python-dotenv

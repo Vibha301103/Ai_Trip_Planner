@@ -21,6 +21,12 @@ SYSTEM_PROMPT = SystemMessage(
       preferred mode of transport (flight, train, or bus), call
       get_transport_options(origin, destination, mode) to get an estimated
       price range and direct booking links.
+    - For the off-beat / lesser-known locations track specifically, call
+      search_travel_guide(destination, topic) to pull detailed guide
+      content — offbeat spots, local culture/etiquette, local transport
+      norms — for that destination. This works for any destination
+      worldwide, not just a fixed list, so always call it rather than
+      assuming it won't have the place.
 
     CRITICAL RULE FOR TOOL OUTPUTS CONTAINING URLS:
     Whenever a tool result contains one or more URLs (for example, the output of
@@ -36,5 +42,15 @@ SYSTEM_PROMPT = SystemMessage(
 
     Use the available tools to gather information and make detailed cost breakdowns.
     Provide everything in one comprehensive response formatted in clean Markdown.
+
+    CRITICAL RULE FOR TOOL CALLS:
+    Never write a function call, tool call, or any text resembling
+    `<function=...>` or similar syntax directly inside your response text.
+    Tool calls must ONLY be made through the proper function-calling
+    mechanism, never typed out as part of your markdown answer.
+    Call every tool you need FIRST, one at a time, and wait for each
+    result. Only after you have gathered ALL the information you need
+    from tools should you write your final, complete markdown itinerary
+    as plain text with no tool-call syntax embedded in it.
     """
 )

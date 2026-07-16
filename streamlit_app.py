@@ -1,6 +1,8 @@
 import streamlit as st
 import datetime
+from langchain_core.messages import HumanMessage, AIMessage
 from agent.agentic_workflow import GraphBuilder
+from utils.agent_invoke import invoke_agent_with_retry
 
 st.set_page_config(
     page_title="🌍 Travel Planner Agentic Application",
@@ -11,9 +13,16 @@ st.set_page_config(
 
 st.title("🌍 Travel Planner Agentic Application")
 
-# Initialize chat history
+# Full conversation history — a list of LangChain HumanMessage/AIMessage
+# objects. We send this WHOLE list back to the agent on every turn (not
+# just the newest message), which is what gives it memory of the plan it
+# already generated when you ask a follow-up question.
 if "messages" not in st.session_state:
     st.session_state.messages = []
+
+if "plan_generated" not in st.session_state:
+    st.session_state.plan_generated = False
+
 
 # Build the AI travel agent once per session
 @st.cache_resource
@@ -21,48 +30,85 @@ def get_travel_agent():
     builder = GraphBuilder(model_provider="groq")
     return builder()
 
+
 travel_agent = get_travel_agent()
 
-# Display chat history
+
+def call_agent_and_update_history():
+    """Send the full conversation so far to the agent, then update
+    session_state with whatever it returns (which includes the new
+    AI response appended)."""
+    with st.spinner("Thinking..."):
+        output = invoke_agent_with_retry(
+            travel_agent, {"messages": st.session_state.messages}
+        )
+    if isinstance(output, dict) and "messages" in output:
+        st.session_state.messages = output["messages"]
+
+
+# ---------------------------------------------------------------------------
+# Step 1 — Plan a trip (the form is collapsed once a plan already exists,
+# but can be reopened to start a fresh plan/conversation)
+# ---------------------------------------------------------------------------
 st.header("How can I help you in planning a trip? Let me know where do you want to visit.")
 
-# Chat input box at bottom
-with st.form(key="query_form", clear_on_submit=True):
-    user_input = st.text_input("User Input", placeholder="e.g. Plan a trip to Goa for 5 days")
+with st.expander("Plan a trip", expanded=not st.session_state.plan_generated):
+    with st.form(key="query_form", clear_on_submit=True):
+        user_input = st.text_input("User Input", placeholder="e.g. Plan a trip to Goa for 5 days")
 
-    col1, col2 = st.columns(2)
-    with col1:
-        origin = st.text_input(
-            "Traveling from (optional)", placeholder="e.g. Ajmer"
-        )
-    with col2:
-        mode = st.selectbox(
-            "Preferred mode of transport (optional)",
-            ["Not specified", "flight", "train", "bus"],
-        )
+        col1, col2 = st.columns(2)
+        with col1:
+            origin = st.text_input(
+                "Traveling from (optional)", placeholder="e.g. Ajmer"
+            )
+        with col2:
+            mode = st.selectbox(
+                "Preferred mode of transport (optional)",
+                ["Not specified", "flight", "train", "bus"],
+            )
 
-    submit_button = st.form_submit_button("Send")
+        submit_button = st.form_submit_button("Plan Trip")
 
-if submit_button and user_input.strip():
-    try:
-        # If the user filled in origin + mode, fold them into the query so
-        # the agent's prompt (which looks for origin/destination/mode) can
-        # pick them up and call get_transport_options().
-        final_query = user_input.strip()
-        if origin.strip() and mode != "Not specified":
-            final_query += f". I'm traveling from {origin.strip()} by {mode}."
-        elif origin.strip():
-            final_query += f". I'm traveling from {origin.strip()}."
+    if submit_button and user_input.strip():
+        try:
+            final_query = user_input.strip()
+            if origin.strip() and mode != "Not specified":
+                final_query += f". I'm traveling from {origin.strip()} by {mode}."
+            elif origin.strip():
+                final_query += f". I'm traveling from {origin.strip()}."
 
-        with st.spinner("Bot is thinking..."):
-            messages = {"messages": [final_query]}
-            output = travel_agent.invoke(messages)
+            # Starting a NEW plan resets the conversation — otherwise a
+            # second trip's questions would get mixed in with the first.
+            st.session_state.messages = [HumanMessage(content=final_query)]
+            call_agent_and_update_history()
+            st.session_state.plan_generated = True
+            st.rerun()
+        except Exception as e:
+            st.error(
+                f"Something went wrong generating your travel plan: {e}. "
+                f"Please try rephrasing your request or try again in a moment."
+            )
 
-        if isinstance(output, dict) and "messages" in output:
-            answer = output["messages"][-1].content
-        else:
-            answer = str(output)
 
+# ---------------------------------------------------------------------------
+# Step 2 — Show the conversation, and let the user ask follow-up questions
+# ---------------------------------------------------------------------------
+if st.session_state.plan_generated:
+    last_ai_content = None
+
+    for msg in st.session_state.messages:
+        # Only render Human messages and AI messages that have actual text
+        # content — LangGraph's message list also includes intermediate
+        # tool-call/tool-result steps we don't want to show in the chat.
+        if isinstance(msg, HumanMessage):
+            with st.chat_message("user"):
+                st.markdown(msg.content)
+        elif isinstance(msg, AIMessage) and msg.content:
+            with st.chat_message("assistant"):
+                st.markdown(msg.content)
+            last_ai_content = msg.content
+
+    if last_ai_content:
         markdown_content = f"""# 🌍 AI Travel Plan
 
 **Generated:** {datetime.datetime.now().strftime('%Y-%m-%d at %H:%M')}
@@ -70,12 +116,27 @@ if submit_button and user_input.strip():
 
 ---
 
-{answer}
+{last_ai_content}
 
 ---
 
 *This travel plan was generated by AI. Please verify all information, especially prices, operating hours, and travel requirements before your trip.*
 """
-        st.markdown(markdown_content)
-    except Exception as e:
-        st.error(f"Something went wrong generating your travel plan: {e}. Please try rephrasing your request or try again in a moment.")
+        st.download_button(
+            label="Download latest plan as Markdown",
+            data=markdown_content,
+            file_name="travel_plan.md",
+            mime="text/markdown",
+        )
+
+    follow_up = st.chat_input("Ask a question about your trip plan...")
+    if follow_up:
+        try:
+            st.session_state.messages.append(HumanMessage(content=follow_up))
+            call_agent_and_update_history()
+            st.rerun()
+        except Exception as e:
+            st.error(
+                f"Something went wrong answering that: {e}. "
+                f"Please try rephrasing your question or try again in a moment."
+            )

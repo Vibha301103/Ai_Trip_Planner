@@ -25,7 +25,7 @@ from utils.transport_search import TransportSearch
 class TransportSearchTool:
     def __init__(self):
         self.transport_search = TransportSearch()
-        self.transport_tools_list = self._setup_tools()
+        self.transport_search_tool_list = self._setup_tools()
 
     def _setup_tools(self):
         @tool

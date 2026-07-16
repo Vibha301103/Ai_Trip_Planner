@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from agent.agentic_workflow import GraphBuilder
 from utils.save_to_document import save_document
+from utils.agent_invoke import invoke_agent_with_retry
 from starlette.responses import JSONResponse
 import os
 import datetime
@@ -36,7 +37,7 @@ async def query_travel_agent(query:QueryRequest):
         print(f"Graph saved as 'my_graph.png' in {os.getcwd()}")
         # Assuming request is a pydantic object like: {"question": "your text"}
         messages={"messages": [query.question]}
-        output = react_app.invoke(messages)
+        output = invoke_agent_with_retry(react_app, messages)
 
         # If result is dict with messages:
         if isinstance(output, dict) and "messages" in output:
