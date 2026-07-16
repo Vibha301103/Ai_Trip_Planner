@@ -25,7 +25,7 @@ class ModelLoader(BaseModel):
     
     class Config:
         arbitrary_types_allowed = True
-    
+       
     def load_llm(self):
         """
         Load and return the LLM model.

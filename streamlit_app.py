@@ -29,12 +29,33 @@ st.header("How can I help you in planning a trip? Let me know where do you want 
 # Chat input box at bottom
 with st.form(key="query_form", clear_on_submit=True):
     user_input = st.text_input("User Input", placeholder="e.g. Plan a trip to Goa for 5 days")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        origin = st.text_input(
+            "Traveling from (optional)", placeholder="e.g. Ajmer"
+        )
+    with col2:
+        mode = st.selectbox(
+            "Preferred mode of transport (optional)",
+            ["Not specified", "flight", "train", "bus"],
+        )
+
     submit_button = st.form_submit_button("Send")
 
 if submit_button and user_input.strip():
     try:
+        # If the user filled in origin + mode, fold them into the query so
+        # the agent's prompt (which looks for origin/destination/mode) can
+        # pick them up and call get_transport_options().
+        final_query = user_input.strip()
+        if origin.strip() and mode != "Not specified":
+            final_query += f". I'm traveling from {origin.strip()} by {mode}."
+        elif origin.strip():
+            final_query += f". I'm traveling from {origin.strip()}."
+
         with st.spinner("Bot is thinking..."):
-            messages = {"messages": [user_input]}
+            messages = {"messages": [final_query]}
             output = travel_agent.invoke(messages)
 
         if isinstance(output, dict) and "messages" in output:

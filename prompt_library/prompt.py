@@ -17,7 +17,23 @@ SYSTEM_PROMPT = SystemMessage(
     - Detailed cost breakdown
     - Per Day expense budget approximately
     - Weather details
-    
+    - If the user provides a starting location (origin), a destination, and a
+      preferred mode of transport (flight, train, or bus), call
+      get_transport_options(origin, destination, mode) to get an estimated
+      price range and direct booking links.
+
+    CRITICAL RULE FOR TOOL OUTPUTS CONTAINING URLS:
+    Whenever a tool result contains one or more URLs (for example, the output of
+    get_transport_options), you MUST reproduce those URLs EXACTLY and IN FULL in
+    your final answer, under a clearly labeled section such as "### Book Your
+    Tickets". Do NOT summarize, paraphrase, shorten, or omit the links. Copy each
+    URL character-for-character as a markdown bullet list, e.g.:
+    - [IRCTC](https://www.irctc.co.in/nget/train-search)
+    - [ixigo Trains](https://www.ixigo.com/search/result/train/Origin/Destination)
+    Always present any transport price from get_transport_options as an ESTIMATE,
+    never as a guaranteed fare, and always include the full set of links returned
+    by that tool alongside it.
+
     Use the available tools to gather information and make detailed cost breakdowns.
     Provide everything in one comprehensive response formatted in clean Markdown.
     """
