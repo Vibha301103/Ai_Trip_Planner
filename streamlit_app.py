@@ -3,6 +3,7 @@ import datetime
 from langchain_core.messages import HumanMessage, AIMessage
 from agent.agentic_workflow import GraphBuilder
 from utils.agent_invoke import invoke_agent_with_retry
+from utils.custom_styles import get_custom_css, get_hero_banner_html, get_feature_cards_html
 
 st.set_page_config(
     page_title="🌍 Travel Planner Agentic Application",
@@ -11,7 +12,15 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-st.title("🌍 Travel Planner Agentic Application")
+st.markdown(get_custom_css(), unsafe_allow_html=True)
+st.markdown(
+    get_hero_banner_html(
+        "🌍 Travel Planner Agentic Application",
+        "Plan your next adventure — itineraries, transport, and local guides, all in one place.",
+    ),
+    unsafe_allow_html=True,
+)
+st.markdown(get_feature_cards_html(), unsafe_allow_html=True)
 
 # Full conversation history — a list of LangChain HumanMessage/AIMessage
 # objects. We send this WHOLE list back to the agent on every turn (not
@@ -50,7 +59,7 @@ def call_agent_and_update_history():
 # Step 1 — Plan a trip (the form is collapsed once a plan already exists,
 # but can be reopened to start a fresh plan/conversation)
 # ---------------------------------------------------------------------------
-st.header("How can I help you in planning a trip? Let me know where do you want to visit.")
+st.markdown("#### Where do you want to go?")
 
 with st.expander("Plan a trip", expanded=not st.session_state.plan_generated):
     with st.form(key="query_form", clear_on_submit=True):
